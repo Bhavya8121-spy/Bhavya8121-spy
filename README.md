@@ -81,7 +81,7 @@ I'm always happy to talk about projects, internships, or ideas. Reach me on [Lin
 
 <p align="center"><sub> If something here is useful, a star is always appreciated.</sub></p>
 
-## 🏄 Contributions
+## Contributions
 
 <picture>
   <source media="(prefers-color-scheme: dark)"  srcset="https://raw.githubusercontent.com/Bhavya8121-spy/Bhavya8121-spy/output/surf-dark.svg">
