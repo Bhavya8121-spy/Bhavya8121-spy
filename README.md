@@ -80,3 +80,11 @@ A fully local Retrieval-Augmented Generation system. Load any PDF, then ask ques
 I'm always happy to talk about projects, internships, or ideas. Reach me on [LinkedIn](https://www.linkedin.com/in/bhavya-patel-554033307/) or at **bhavya.d.patel@vanderbilt.edu**.
 
 <p align="center"><sub> If something here is useful, a star is always appreciated.</sub></p>
+
+## 🏄 Contributions
+
+<picture>
+  <source media="(prefers-color-scheme: dark)"  srcset="https://raw.githubusercontent.com/Bhavya8121-spy/Bhavya8121-spy/output/surf-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Bhavya8121-spy/Bhavya8121-spy/output/surf-light.svg">
+  <img alt="Surfing contribution graph" src="https://raw.githubusercontent.com/Bhavya8121-spy/Bhavya8121-spy/output/surf-dark.svg">
+</picture>
