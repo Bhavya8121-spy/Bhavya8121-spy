@@ -53,11 +53,11 @@ A fully local Retrieval-Augmented Generation system. Load any PDF, then ask ques
 - `Python` · `Ollama` · `ChromaDB` · `PyMuPDF`
 
 ### [GPA Course Planner Tool](https://github.com/Bhavya8121-spy/GPA-Course-Planner-Tool)
-[One line: what it does and who it helps.]
+A Python-based tool that helps students plan courses, calculate GPA, and track academic progress.
 - `Python`
 
 ### [Personal Finance](https://github.com/Bhavya8121-spy/Personal_Finance)
-[One line: what it tracks or visualizes.]
+An interactive web application that helps users track income, expenses, and savings to better manage their personal finances.
 - `HTML` · `JavaScript`
 
 ---
