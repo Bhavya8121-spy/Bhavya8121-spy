@@ -57,8 +57,8 @@ A Python-based tool that helps students plan courses, calculate GPA, and track a
 - `Python`
 
 ### [Personal Finance](https://github.com/Bhavya8121-spy/Personal_Finance)
-An interactive web application that helps users track income, expenses, and savings to better manage their personal finances.
-- `HTML` · `JavaScript`
+A Python-based financial analysis tool that transforms bank statements into clear spending insights, identifies financial habits, and helps users plan savings goals.
+- Python · Streamlit · pandas · SQLite · Gemini API
 
 ---
 
