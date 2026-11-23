@@ -23,13 +23,25 @@ Most of my work is Python: LLM pipelines, Flask backends, and Postgres. I add Ja
 
 ## Featured projects
 
-| Project | What it does | Built with |
-|---|---|---|
-| **[AgentShield](https://github.com/Bhavya8121-spy/agentshield)** · [live demo](https://bhavya8121-spy.github.io/agentshield/) | A permission checkpoint between an AI agent and the actions it proposes. Fixed role and tenant rules decide what runs, so a prompt injection hidden in a ticket can't talk its way into deleting data. Every decision is logged, and attack scenarios can be replayed across models. | Python · Oracle OCI |
-| **[RAG Engine](https://github.com/Bhavya8121-spy/RAGEngine)** | Fully offline PDF Q&A with no API keys and no cloud. A modular pipeline of chunking, embeddings, vector search and an LLM answer, with a similarity threshold that filters weak matches before they reach the model. Runs from a CLI, an API server or a web front end. | Python · Ollama · ChromaDB · PyMuPDF |
-| **[Log Tunnel](https://github.com/Bhavya8121-spy/Log-Tunnel-Chaos-Monkey-Simulator)** | An end-to-end log pipeline (app → Python shipper → Postgres → WebSocket dashboard), plus a Chaos Monkey panel that fires dropped connections, timeouts and slow queries on demand so you can watch the system react. | Python · PostgreSQL · WebSockets · Docker |
-| **[Transfer Pathway Optimizer](https://github.com/Bhavya8121-spy/Transfer-Pathway)** | Parses unstructured community-college transcripts and builds a prerequisite-safe four-year plan for UT Austin transfers. A topological-sort-style scheduler walks the dependency graph and balances STEM load across terms. | Python · Flask · Pandas · pdfplumber |
-| **[Statement Reader](https://github.com/Bhavya8121-spy/Personal_Finance)** | Turns a messy bank CSV into real merchant names, spending categories and a plain-language read of where the money went. Local rules run first and Gemini handles the rest. | Python · Streamlit · SQLite · Gemini API |
+**[AgentShield](https://github.com/Bhavya8121-spy/agentshield)** · [live demo](https://bhavya8121-spy.github.io/agentshield/)<br/>
+A permission checkpoint between an AI agent and the actions it proposes. Fixed role and tenant rules decide what runs, so a prompt injection hidden in a ticket can't talk its way into deleting data. Every decision is logged, and attack scenarios can be replayed across models.<br/>
+<sub>Python · Oracle OCI</sub>
+
+**[RAG Engine](https://github.com/Bhavya8121-spy/RAGEngine)**<br/>
+Fully offline PDF Q&A with no API keys and no cloud. A modular pipeline of chunking, embeddings, vector search and an LLM answer, with a similarity threshold that filters weak matches before they reach the model. Runs from a CLI, an API server or a web front end.<br/>
+<sub>Python · Ollama · ChromaDB · PyMuPDF</sub>
+
+**[Log Tunnel](https://github.com/Bhavya8121-spy/Log-Tunnel-Chaos-Monkey-Simulator)**<br/>
+An end-to-end log pipeline (app → Python shipper → Postgres → WebSocket dashboard), plus a Chaos Monkey panel that fires dropped connections, timeouts and slow queries on demand so you can watch the system react.<br/>
+<sub>Python · PostgreSQL · WebSockets · Docker</sub>
+
+**[Transfer Pathway Optimizer](https://github.com/Bhavya8121-spy/Transfer-Pathway)**<br/>
+Parses unstructured community-college transcripts and builds a prerequisite-safe four-year plan for UT Austin transfers. A topological-sort-style scheduler walks the dependency graph and balances STEM load across terms.<br/>
+<sub>Python · Flask · Pandas · pdfplumber</sub>
+
+**[Statement Reader](https://github.com/Bhavya8121-spy/Personal_Finance)**<br/>
+Turns a messy bank CSV into real merchant names, spending categories and a plain-language read of where the money went. Local rules run first and Gemini handles the rest.<br/>
+<sub>Python · Streamlit · SQLite · Gemini API</sub>
 
 **For fun:** two browser games I built with three.js. [Meridian Drive](https://bhavya8121-spy.github.io/meridian-drive/) is an open-world city driving game with Rapier physics, and in [Relic Isle](https://bhavya8121-spy.github.io/relic-isle/) you survive the nights on a cursed island.
 
