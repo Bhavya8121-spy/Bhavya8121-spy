@@ -1,0 +1,1 @@
+JavaScript, Python, HTML, TypeScript, CSS, Shell, Lua, PLSQL, Dockerfile
