@@ -13,6 +13,7 @@ Usage:
   WEATHER_LAT=.. WEATHER_LON=.. python pixel_studio.py   # opt-in live weather
 Writes ./assets/pixel-*.svg
 """
+import base64
 import datetime as dt
 import hashlib
 import json
@@ -116,7 +117,7 @@ def fetch():
         for r in repos[:5]:
             for c in gh(f"repos/{USER}/{r['name']}/commits?per_page=4"):
                 data["commits"].append((c["commit"]["author"]["date"], r["name"],
-                                        c["commit"]["message"].split("\n")[0]))
+                                        c["commit"]["message"].split("\n")[0], c["sha"][:7]))
         data["commits"].sort(reverse=True)
     except Exception as e:
         print(f"(repo data unavailable: {e})")
@@ -231,21 +232,21 @@ def room(d):
              R(52, 39, 1, 1, "#4caf50") + R(59, 40, 1, 2, "#4caf50") + R(58, 41, 1, 1, "#4caf50"))
 
     # ---- Vanderbilt pennant
-    s.append(f'<polygon points="{68*P},{28*P} {68*P},{40*P} {90*P},{34*P}" fill="#111111"/>')
+    s.append(f'<polygon points="{68*P},{28*P} {68*P},{40*P} {86*P},{34*P}" fill="#111111"/>')
     s.append(R(67, 27, 1, 14, "#8a7a5c"))
     s.append(pixel_text("VU", 70 * P, 32 * P, 4, "#cfae70"))
 
     # ---- neon name sign
     name = "BHAVYA PATEL"
     tw = text_w(name, P)
-    sx = (117 * P) - tw // 2
+    sx = (119 * P) - tw // 2
     s.append(R(sx / P - 3, 3, tw / P + 6, 13, "#0f1022", 'rx="4"'))
     s.append(f'<g filter="url(#glow)" class="neon">{pixel_text(name, sx, 7*P, P, "#ff6ad5")}</g>')
 
     # ---- sticky notes
-    s.append(R(146, 26, 9, 9, "#ffe57a") + R(147, 28, 6, 1, "#c9a93a") + R(147, 30, 4, 1, "#c9a93a"))
-    s.append(R(150, 37, 9, 9, "#7ee0c3") + R(151, 39, 6, 1, "#3f9e83") + R(151, 41, 5, 1, "#3f9e83"))
-    s.append(R(150, 26, 1, 1, "#e05555") + R(154, 37, 1, 1, "#e05555"))  # pins
+    s.append(R(153, 24, 9, 9, "#ffe57a") + R(154, 26, 6, 1, "#c9a93a") + R(154, 28, 4, 1, "#c9a93a"))
+    s.append(R(155, 36, 9, 9, "#7ee0c3") + R(156, 38, 6, 1, "#3f9e83") + R(156, 40, 5, 1, "#3f9e83"))
+    s.append(R(157, 24, 1, 1, "#e05555") + R(159, 36, 1, 1, "#e05555"))  # pins
 
     # ---- clock
     cx, cy = 189, 14
@@ -281,29 +282,43 @@ def room(d):
     s.append(R(71, 70, 3, 22, "#6b4a35") + R(158, 70, 3, 22, "#6b4a35"))
     s.append(R(138, 70, 20, 12, "#7a543b") + R(146, 75, 4, 1, "#c9a26b"))
 
-    # ---- CRT monitor
-    s.append(R(92, 24, 50, 37, "#cfc8b8") + R(92, 24, 50, 1, "#e5dfd1") + R(141, 24, 1, 37, "#a59d8b"))
-    s.append(R(95, 27, 44, 28, "#08140d"))
-    s.append(R(96, 57, 2, 1, "#3fe08a", 'class="led"'))
-    s.append(R(110, 61, 14, 3, "#b3ac9b") + R(104, 63, 26, 3, "#a59d8b"))
+    # ---- CRT monitor (bezel x 88..150, screen x 91..147 / y 23..55)
+    s.append(R(88, 20, 62, 41, "#cfc8b8") + R(88, 20, 62, 1, "#e5dfd1") + R(149, 20, 1, 41, "#a59d8b"))
+    s.append(R(90, 22, 58, 34, "#9e9785"))
+    s.append(R(91, 23, 56, 32, "#08140d"))
+    s.append(R(92, 58, 2, 1, "#3fe08a", 'class="led"') + R(140, 58, 6, 1, "#a59d8b"))
+    s.append(R(112, 61, 14, 3, "#b3ac9b") + R(106, 63, 26, 3, "#a59d8b"))
     # keyboard
-    s.append(R(98, 64, 30, 2, "#3b3f4e") + "".join(R(99 + i * 2, 64, 1, 1, "#6c7184") for i in range(14)))
+    s.append(R(104, 64, 30, 2, "#3b3f4e") + "".join(R(105 + i * 2, 64, 1, 1, "#6c7184") for i in range(14)))
 
-    # terminal text (svg px coordinates, clipped to the screen)
-    lines = ["$ git log --oneline"]
-    for _, repo, msg in d["commits"][:14]:
-        tag = {"Bhavya8121-spy": "profile", "personal-portfolio": "portfolio"}.get(repo, repo)
-        lines.append(f"{tag[:10]}> {msg}"[:31])
-    if len(lines) == 1:
-        lines += ["personal-portfolio: ship it", "agentshield: add replay"]
-    lh = 10
-    term = []
-    for i, ln in enumerate(lines + lines):
-        col = "#7cf2b4" if ln.startswith("$") else "#3fe08a"
-        term.append(f'<text x="{96*P+3}" y="{27*P + 12 + i*lh}" fill="{col}" font-family="{MONO}" font-size="8.2">{escape(ln)}</text>')
-    s.append(f'<clipPath id="scr"><rect x="{95*P}" y="{27*P}" width="{44*P}" height="{28*P}"/></clipPath>')
-    s.append(f'<g clip-path="url(#scr)"><g style="animation: scroll {len(lines)*1.4:.1f}s steps({len(lines)}) infinite; --h:-{len(lines)*lh}px">{"".join(term)}</g>'
-             f'{R(95, 27, 44, 28, "url(#scanlines)")}{R(95, 27, 44, 28, "#3fe08a", "opacity=\".05\"")}</g>')
+    # terminal: fixed prompt + `git log --oneline` that scrolls one whole line at a time
+    sx0, sy0, sw, sh = 91 * P, 23 * P, 56 * P, 32 * P
+    fs, lh, cw = 9.5, 11, 5.72          # font size, line height, monospace advance
+    max_chars = int((sw - 12) / cw)      # 37
+    commits = [(sha, msg) for _, _, msg, sha in d["commits"][:14]] or [("0000000", "first commit")]
+
+    def clip(msg, n):
+        if len(msg) <= n:
+            return msg
+        cut = msg[:n - 1].rsplit(" ", 1)[0]
+        return (cut if len(cut) > n * 0.5 else msg[:n - 1]).rstrip(" ,.:;-") + "…"
+
+    head_h = 17
+    area_top, area_h = sy0 + head_h, sh - head_h
+    visible = area_h // lh
+    area_h = visible * lh
+    rows = []
+    for i, (sha, msg) in enumerate(commits + commits):
+        y = area_top + 8.5 + i * lh
+        rows.append(f'<text x="{sx0+6}" y="{y}" font-family="{MONO}" font-size="{fs}" xml:space="preserve">'
+                    f'<tspan fill="#ffcf4a">{sha}</tspan><tspan fill="#3fe08a"> {escape(clip(msg, max_chars - 8))}</tspan></text>')
+    n = len(commits)
+    s.append(f'<clipPath id="scr"><rect x="{sx0}" y="{area_top}" width="{sw}" height="{area_h}"/></clipPath>')
+    s.append(f'<text x="{sx0+6}" y="{sy0+11}" font-family="{MONO}" font-size="{fs}" fill="#7cf2b4">'
+             f'<tspan fill="#5aa9e6">~/code</tspan> $ git log --oneline<tspan class="led">▌</tspan></text>')
+    s.append(f'<rect x="{sx0+6}" y="{sy0+head_h-3}" width="{sw-12}" height="1" fill="#1f4a33"/>')
+    s.append(f'<g clip-path="url(#scr)"><g style="animation: scroll {n*1.6:.1f}s steps({n}) infinite; --h:-{n*lh}px">{"".join(rows)}</g></g>')
+    s.append(R(91, 23, 56, 32, "url(#scanlines)") + R(91, 23, 56, 32, "#3fe08a", 'opacity=".05"'))
 
     # ---- desk lamp + glow
     s.append(f'<polygon points="{78*P},{48*P} {68*P},{66*P} {92*P},{66*P}" fill="url(#lampfade)" class="glow"/>')
@@ -315,8 +330,8 @@ def room(d):
     s.append(f'<g class="bob">{duck}</g>')
 
     # ---- mug + steam
-    s.append(R(146, 60, 6, 6, "#e05555") + R(152, 61, 2, 3, "#e05555") + R(147, 60, 4, 1, "#5a3826"))
-    for i, sxp in enumerate((147, 149, 148)):
+    s.append(R(152, 60, 6, 6, "#e05555") + R(158, 61, 2, 3, "#e05555") + R(153, 60, 4, 1, "#5a3826"))
+    for i, sxp in enumerate((153, 155, 154)):
         s.append(R(sxp, 57, 1, 2, "#ffffff", f'class="steam" style="animation-delay:{i*0.7:.1f}s"'))
 
     # ---- floor props: rug, dumbbell, plant
@@ -388,14 +403,18 @@ def heading(txt, x, y):
 
 def about(d):
     W, H = 840, 200
-    px = json.loads((HERE / "avatar_pixels.json").read_text())
-    u = 5
-    ax, ay = 24, 56
-    av = [f'<rect x="{ax-6}" y="{ay-6}" width="{len(px)*u+12}" height="{len(px)*u+12}" fill="#0b0f14" stroke="{ACC}" stroke-width="2"/>']
-    for y, row in enumerate(px):
-        for x, c in enumerate(row):
-            av.append(f'<rect x="{ax+x*u}" y="{ay+y*u}" width="{u}" height="{u}" fill="{c}"/>')
-    tx = ax + len(px) * u + 30
+    ax, ay, size = 24, 52, 112
+    photo = base64.b64encode((HERE / "avatar.jpg").read_bytes()).decode()
+    av = [f'<rect x="{ax-6}" y="{ay-6}" width="{size+12}" height="{size+12}" fill="#0b0f14"/>',
+          f'<clipPath id="ph"><rect x="{ax}" y="{ay}" width="{size}" height="{size}"/></clipPath>',
+          f'<image x="{ax}" y="{ay}" width="{size}" height="{size}" preserveAspectRatio="xMidYMid slice" '
+          f'clip-path="url(#ph)" href="data:image/jpeg;base64,{photo}"/>']
+    # stepped pixel frame
+    for (x, y, w, h) in ((ax-6, ay-6, size+12, 3), (ax-6, ay+size+3, size+12, 3), (ax-6, ay-6, 3, size+12), (ax+size+3, ay-6, 3, size+12)):
+        av.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{ACC}"/>')
+    for (x, y) in ((ax-6, ay-6), (ax+size+3, ay-6), (ax-6, ay+size+3), (ax+size+3, ay+size+3)):
+        av.append(f'<rect x="{x}" y="{y}" width="3" height="3" fill="{PANEL}"/>')
+    tx = ax + size + 30
     stats = [("CONTRIBS", str(d.get("total", "-"))), ("REPOS", str(d["repos"] or "-")),
              ("LANGUAGES", str(len(d["langs"]) or "-")), ("BEST STREAK", f"{streaks(d)[1]}D")]
     st = ""
